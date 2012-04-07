@@ -3,8 +3,8 @@
 $app->routeshandler = new mpMVCRouter();
 
 F3::route('GET /', array($app->routeshandler, 'home'));
-F3::route('GET /@model/add', array($app->routeshandler, 'modelAdd'));
-F3::route('POST /@model/add', array($app->routeshandler, 'modelCreate'));
+F3::route('GET /@model/new', array($app->routeshandler, 'modelAdd'));
+F3::route('POST /@model/new', array($app->routeshandler, 'modelCreate'));
 F3::route('GET /@model/all', array($app->routeshandler, 'modelList'));
 F3::route('GET /@model/@id', array($app->routeshandler, 'modelView'));
 F3::route('GET /@model/@id/edit', array($app->routeshandler, 'modelEdit'));
