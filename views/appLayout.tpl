@@ -68,6 +68,13 @@
         <script src="<!-- base_url --><!-- /base_url -->public/javascripts/underscore-1.2.4.js"></script>
         <script src="<!-- base_url --><!-- /base_url -->public/javascripts/backbone.js"></script>
         <script src="<!-- base_url --><!-- /base_url -->public/javascripts/json2.js"></script>
+	<script type="text/javascript">
+		$('.del').click(function(e) {
+			e.preventDefault();
+			var c = confirm('Are you sure?');
+			if (c) window.location.href = $(this).attr('href');
+		})
+	</script>
 
 <!-- End Document
 ================================================== -->

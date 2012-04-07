@@ -9,6 +9,7 @@ F3::route('GET /@model/all', array($app->routeshandler, 'modelList'));
 F3::route('GET /@model/@id', array($app->routeshandler, 'modelView'));
 F3::route('GET /@model/@id/edit', array($app->routeshandler, 'modelEdit'));
 F3::route('POST /@model/@id/edit', array($app->routeshandler, 'modelUpdate'));
+F3::route('GET /@model/@id/remove', array($app->routeshandler, 'modelRemove'));
 
 require_once('routes.php');
 
@@ -79,6 +80,16 @@ class mpMVCRouter
         }
         $model->store($instance);
         F3::reroute($app->baseurl.$model->plural.'/all');   
+    }
+    
+    public function modelRemove()
+    {
+        $app = F3::get('app');
+        $id = F3::get('PARAMS["id"]');
+        $model = $app->model(F3::get('PARAMS["model"]'), 'single');
+        if (!$model->scaffold()) F3::error(404);
+        $model->remove($id);
+        F3::reroute($app->baseurl.$model->plural.'/all');
     }
     
     public function modelView()

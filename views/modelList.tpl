@@ -13,7 +13,7 @@
         <!-- /property -->
         <br />
         <div class="controls">
-          <a class="del" id="<!-- id --><!-- /id -->">Remove</a> <a class="edit" href="<!-- base_url --><!-- /base_url --><!-- plural --><!-- /plural -->/<!-- id --><!-- /id -->/edit">Edit</a>
+          <a class="del" href="<!-- base_url --><!-- /base_url --><!-- single --><!-- /single -->/<!-- id --><!-- /id -->/remove" id="<!-- id --><!-- /id -->">Remove</a> <a class="edit" href="<!-- base_url --><!-- /base_url --><!-- plural --><!-- /plural -->/<!-- id --><!-- /id -->/edit">Edit</a>
         </div>
         <hr />
     </div>

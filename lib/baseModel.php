@@ -33,6 +33,12 @@ class mpMVCModel
         return R::load($this->name, $id);
     }
     
+    public function remove($id)
+    {
+        $model = $this->load($id);
+        R::trash($model);
+    }
+    
     public function findAll()
     {
         return R::find($this->name);
