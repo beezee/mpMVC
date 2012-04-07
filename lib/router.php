@@ -36,7 +36,7 @@ class mpMVCRouter extends F3instance
     
     public function modelAdd()
     {
-        $model = $this->app->model($this>get('PARAMS["model"]'), 'single');
+        $model = $this->app->model($this->get('PARAMS["model"]'), 'single');
         if (!$model->scaffold()) $this->error(404);
         echo $this->app->render($model->renderToForm('add'));
     }
@@ -47,7 +47,7 @@ class mpMVCRouter extends F3instance
         if (!$model->scaffold()) $this->error(404);
         $newModel = $model->processParams($model->create(), $_POST['params']);
         $id = $model->store($newModel);
-        $this->reroute($this->app->baseurl.$model->plural.'/all');   
+        $this->reroute($this->app->baseurl.'all/'.$model->plural);   
     }
     
     public function modelEdit()
@@ -66,7 +66,7 @@ class mpMVCRouter extends F3instance
         if (!$model->scaffold()) $this->error(404);
         $instance = $model->processParams($model->load($id), $_POST['params']);
         $model->store($instance);
-        $this->reroute($this->app->baseurl.$model->plural.'/all');   
+        $this->reroute($this->app->baseurl.'all/'.$model->plural);   
     }
     
     public function modelRemove()
@@ -75,7 +75,7 @@ class mpMVCRouter extends F3instance
         $model = $this->app->model($this->get('PARAMS["model"]'), 'single');
         if (!$model->scaffold()) $this->error(404);
         $model->remove($id);
-        $this->reroute($this->app->baseurl.$model->plural.'/all');
+        $this->reroute($this->app->baseurl.'all/'.$model->plural);
     }
     
     public function modelView()

@@ -92,7 +92,8 @@ class mpMVCModel
             {
                 foreach ($data['options'] as $value => $text)
                 {
-                    $propval = (is_object($instance->$property)) ? $instance->$property->id : $instance->$property;
+                    if ($instance) $propval = (is_object($instance) and is_object($instance->$property)) ? $instance->$property->id : $instance->$property;
+                    else $propval = '';
                     $selected = ($instance && $value == $propval) ? 'selected="selected"' : '';
                     $options .= $tpl->copy('option')
                         ->replace('value', $value)
