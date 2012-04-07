@@ -46,8 +46,7 @@ class mpMVCRouter
             $newModel->$key = $val;
         }
         $id = $model->store($newModel);
-        F3::set('PARAMS["model"]', $model->plural);
-        $this->modelList();
+        F3::reroute($app->baseurl.$model->plural.'/all');   
     }
     
     public function modelEdit()
@@ -72,8 +71,7 @@ class mpMVCRouter
             $instance->$key = $val;
         }
         $model->store($instance);
-        F3::set('PARAMS["model"]', $model->plural);
-        $this->modelList();        
+        F3::reroute($app->baseurl.$model->plural.'/all');   
     }
     
     public function modelView()

@@ -10,6 +10,8 @@ require_once 'lib/rb.php';
 
 require_once 'config.php';
 
+$app->baseurl = $baseurl;
+
 R::setup("mysql:host=$dbhost;dbname=$dbname",$dbuser,$dbpw);
 
 //discover and register models
@@ -35,7 +37,7 @@ foreach (glob("models/*.php") as $filename)
         require_once $filename;
         foreach($classes as $class)
         {
-            $model = new $class();
+            $model = new $class($app);
             if (isset($model->properties) and is_array($model->properties) and !empty($model->properties)) $app->registerModel($class, $model);
         }
     }

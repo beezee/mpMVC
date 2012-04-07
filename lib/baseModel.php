@@ -7,6 +7,8 @@ class mpMVCModel
     
     public function __construct()
     {
+        global $app;
+        $this->app = $app;
         $this->name = get_class($this);
         $this->scaffold = true;
     }
@@ -89,7 +91,8 @@ class mpMVCModel
                 ->replace('property', '')
                 ->replace('propVal', $model->{$this->toString})
                 ->replace('plural', $this->plural)
-                ->replace('toString', $model->{$this->toString});
+                ->replace('toString', $model->{$this->toString})
+                ->replace('base_url', $this->app->baseurl);
         }
         return $items;
     }
@@ -104,12 +107,13 @@ class mpMVCModel
         {
             $props .= $tpl->copy('property')->replace('propName', $prop)->replace('propVal', $model->$prop);
         }
-        return $tpl->copy('item')
+        return $tpl
             ->replace('id', $model->id)
             ->replace('property', '')
             ->replace('propVal', $model->{$this->toString})
             ->replace('plural', $this->plural)
             ->replace('toString', $model->{$this->toString})
-            ->replace('property', $props);
+            ->replace('property', $props)
+            ->replace('base_url', $this->app->baseurl);
     }
 }
