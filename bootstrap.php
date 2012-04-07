@@ -38,7 +38,7 @@ foreach (glob("models/*.php") as $filename)
         foreach($classes as $class)
         {
             $model = new $class($app);
-            if (isset($model->properties) and is_array($model->properties) and !empty($model->properties)) $app->registerModel($class, $model);
+            if (get_parent_class($model) == 'mpMVCModel' and isset($model->properties) and is_array($model->properties) and !empty($model->properties)) $app->registerModel($class, $model);
         }
     }
 }

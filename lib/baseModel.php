@@ -61,10 +61,11 @@ class mpMVCModel
             {
                 foreach ($data['options'] as $value => $text)
                 {
-                    $selected = ($value == $instance->$property) ? 'selected="selected"' : '';
+                    $selected = ($instance && $value == $instance->$property) ? 'selected="selected"' : '';
                     $options .= $tpl->copy('option')
                         ->replace('value', $value)
-                        ->replace('text', $text);
+                        ->replace('text', $text)
+                        ->replace('selected', $selected);
                 }
                 $control = $control->replace('option', $options);
             }
@@ -81,6 +82,7 @@ class mpMVCModel
     public function renderList()
     {
         $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
+        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
         $models = $this->findAll();
         $items = '';
         foreach($models as $model)
@@ -89,17 +91,19 @@ class mpMVCModel
             $items .= $item
                 ->replace('id', $model->id)
                 ->replace('property', '')
-                ->replace('propVal', $model->{$this->toString})
                 ->replace('plural', $this->plural)
-                ->replace('toString', $model->{$this->toString})
-                ->replace('base_url', $this->app->baseurl);
+                ->replace('toString', $model->{$this->toString});
         }
-        return $items;
+        return $output->replace('all_link', '')
+            ->replace('item', $items)
+            ->replace('base_url', $this->app->baseurl)
+            ->replace('single', $this->single);
     }
     
     public function renderItem($id)
     {
         $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
+        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
         $model = $this->load($id);
         if (!$model) F3::error(404);
         $props = '';
@@ -107,7 +111,8 @@ class mpMVCModel
         {
             $props .= $tpl->copy('property')->replace('propName', $prop)->replace('propVal', $model->$prop);
         }
-        return $tpl
+        return $output
+            ->replace('new_link', '')
             ->replace('id', $model->id)
             ->replace('property', '')
             ->replace('propVal', $model->{$this->toString})
