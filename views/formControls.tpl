@@ -19,7 +19,7 @@
 <!-- /longtext -->
 
 <!-- form -->
-<h1><!-- title --><!-- /title --></h1>
+<h3><!-- title --><!-- /title --></h3>
     <form method="post">
         <!-- controls -->
         <!-- /controls -->

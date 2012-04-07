@@ -12,6 +12,8 @@ require_once 'config.php';
 
 $app->baseurl = $baseurl;
 
+$app->app_name = $appname;
+
 R::setup("mysql:host=$dbhost;dbname=$dbname",$dbuser,$dbpw);
 
 //discover and register models

@@ -24,7 +24,8 @@ class mpMVCRouter
     
     public function home()
     {
-        echo 'Welcome to mpMVC';
+        $app = F3::get('app');
+        echo $app->render('Welcome to mpMVC');
     }
     
     public function modelAdd()
@@ -32,7 +33,7 @@ class mpMVCRouter
         $app = F3::get('app');
         $model = $app->model(F3::get('PARAMS["model"]'), 'single');
         if (!$model->scaffold()) F3::error(404);
-        echo $model->renderToForm('add');
+        echo $app->render($model->renderToForm('add'));
     }
     
     public function modelCreate()
@@ -56,7 +57,7 @@ class mpMVCRouter
         $model = $app->model(F3::get('PARAMS["model"]'), 'plural');
         if (!$model->scaffold()) F3::error(404);
         $instance = $model->load($id);
-        echo $model->renderToForm('edit', $instance);      
+        echo $app->render($model->renderToForm('edit', $instance));      
     }
     
     public function modelUpdate()
@@ -80,7 +81,7 @@ class mpMVCRouter
         $model = $app->model(F3::get('PARAMS["model"]'), 'plural');
         $id = F3::get('PARAMS["id"]');
         if (!$model->scaffold()) F3::error(404);
-        echo $model->renderItem($id);        
+        echo $app->render($model->renderItem($id));        
     }
     
     public function modelList()
@@ -88,7 +89,7 @@ class mpMVCRouter
         $app = F3::get('app');
         $model = $app->model(F3::get('PARAMS["model"]'), 'plural');
         if (!$model->scaffold()) F3::error(404);
-        echo $model->renderList();
+        echo $app->render($model->renderList());
     }
 }
 

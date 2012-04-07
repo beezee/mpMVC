@@ -39,4 +39,13 @@ class mpMVC
     {
         $this->routes = array_merge($this->routes, $routes);
     }
+    
+    public function render($content)
+    {
+        $output = new Stamp(Stamp::load(dirname(__FILE__).'/../views/appLayout.tpl'));
+        return $output
+            ->replace('app_name', $this->app_name)
+            ->replace('base_url', $this->baseurl)
+            ->replace('yield', $content);
+    }
 }

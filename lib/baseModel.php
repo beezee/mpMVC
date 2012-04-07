@@ -109,16 +109,15 @@ class mpMVCModel
         $props = '';
         foreach($this->properties as $prop => $val)
         {
-            $props .= $tpl->copy('property')->replace('propName', $prop)->replace('propVal', $model->$prop);
+            $props .= $tpl->copy('property')->replace('propname', $prop)->replace('propval', $model->$prop);
         }
         return $output
             ->replace('new_link', '')
             ->replace('id', $model->id)
-            ->replace('property', '')
-            ->replace('propVal', $model->{$this->toString})
+            ->replace('property', $props)
+            ->replace('propval', $model->{$this->toString})
             ->replace('plural', $this->plural)
             ->replace('toString', $model->{$this->toString})
-            ->replace('property', $props)
             ->replace('base_url', $this->app->baseurl);
     }
 }
