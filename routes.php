@@ -24,6 +24,6 @@ $app->setRoutes(array(
 
 $app->secureRoutes(array(
     'edit',
-    'add',
+    'new',
     'remove'
 ));
