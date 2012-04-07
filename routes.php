@@ -21,3 +21,9 @@ $app->setRoutes(array(
     //define additional routes here
     'GET /about' => 'about'
 ));
+
+$app->secureRoutes(array(
+    'edit',
+    'add',
+    'remove'
+));

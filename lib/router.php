@@ -22,6 +22,12 @@ F3::set('app', $app);
 class mpMVCRouter
 {
     
+    public function beforeRoute()
+    {
+        $app = F3::get('app');
+        if ($app->secureurl() and (!isset($_GET['pw']) or $_GET['pw'] != 'eep')) F3::error(401);
+    }
+    
     public function home()
     {
         $app = F3::get('app');

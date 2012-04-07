@@ -5,10 +5,27 @@ class mpMVC
     private $_models;
     public $routeshandler;
     public $routes = array();
+    private $securedRoutes = array();
     
     public function registerModel($classname, mpMVCModel $model)
     {
         if (!isset($this->_models[$classname])) $this->_models[$classname] = $model;
+    }
+    
+    public function secureurl()
+    {
+        $secure = false;
+        foreach ($this->securedRoutes as $securedRoute)
+        {
+            $hits = preg_match('/\/'.$securedRoute.'(\/|\?|$)/', $_SERVER['REQUEST_URI']);
+            if ($hits > 0) $secure = true;
+        }
+        return $secure;
+    }
+    
+    public function secureRoutes(array $routes)
+    {
+        $this->securedRoutes = array_merge($this->securedRoutes, $routes);
     }
     
     public function model($modelName, $findBy=false)
