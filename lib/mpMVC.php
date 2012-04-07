@@ -3,9 +3,14 @@
 class mpMVC
 {
     private $_models;
-    public $routeshandler;
+    public $router;
     public $routes = array();
     private $securedRoutes = array();
+    
+    public function models()
+    {
+        return $this->_models;
+    }
     
     public function registerModel($classname, mpMVCModel $model)
     {
@@ -62,7 +67,7 @@ class mpMVC
     
     public function setRoutesHandler(mpMVCRouter $router)
     {
-        $this->routeshandler = $router;
+        $this->router = $router;
     }
     
     public function setRoutes(array $routes)

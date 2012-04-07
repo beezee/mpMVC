@@ -12,7 +12,8 @@ class MicroPost extends mpMVCModel
         $this->toString = 'title';
         $this->properties = array(
             'title' => array( 'type' => 'string'),
-            'content' => array('type'=> 'longtext')
+            'content' => array('type'=> 'longtext'),
+            'Person' => array('type' => 'model')
         );
         $this->add_form_title = 'Add a new Micropost';
     }

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/base.php';
+require 'lib/base.php';
 
 require_once 'lib/Stamp.php';
 

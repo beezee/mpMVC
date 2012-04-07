@@ -49,6 +49,20 @@ class mpMVCModel
         R::store($model);
     }
     
+    public function processParams($model, $params)
+    {
+        $models = $this->app->models();
+        foreach($params as $key => $val)
+        {
+            if (in_array($key, array_keys($models)))
+            {
+                $instance = $models[$key]->load($val);
+            }
+            $model->$key = (isset($instance) and $instance) ? $instance : $val;
+        }
+        return $model;
+    }
+    
     public function renderToForm($action, $instance=false)
     {
         $title_property = $action.'_form_title';
@@ -60,14 +74,26 @@ class mpMVCModel
         foreach ($this->properties as $property => $data)
         {
             $title = $tpl->copy('control_title')->replace('property', ucfirst($property));
-            $control = $tpl->copy($data['type'])
+            $type = ($data['type'] == 'model') ? 'multiple' : $data['type'];
+            $control = $tpl->copy($type)
                 ->replace('id', $property.'_'.$data['type'])
                 ->replace('name', $property);
+            if ($data['type'] == 'model')
+            {
+                $model = new $property;
+                $allModels = $model->findAll();
+                $data['options'] = array();
+                foreach($allModels as $oModel)
+                {
+                    $data['options'][$oModel->id] = $oModel->{$model->toString};
+                }
+            }
             if (isset($data['options']) and is_array($data['options']))
             {
                 foreach ($data['options'] as $value => $text)
                 {
-                    $selected = ($instance && $value == $instance->$property) ? 'selected="selected"' : '';
+                    $propval = (is_object($instance->$property)) ? $instance->$property->id : $instance->$property;
+                    $selected = ($instance && $value == $propval) ? 'selected="selected"' : '';
                     $options .= $tpl->copy('option')
                         ->replace('value', $value)
                         ->replace('text', $text)
@@ -85,10 +111,11 @@ class mpMVCModel
         return $form->replace('controls', $controls)->replace('title', $formTitle);
     }
     
-    public function renderList()
+    public function renderList($view=false)
     {
-        $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
-        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
+        $view = ($view) ? $view : 'modelList';
+        $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/'.$view.'.tpl'));
+        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/'.$view.'.tpl'));
         $models = $this->findAll();
         $items = '';
         foreach($models as $model)
@@ -106,16 +133,19 @@ class mpMVCModel
             ->replace('single', $this->single);
     }
     
-    public function renderItem($id)
+    public function renderItem($id, $view=false)
     {
-        $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
-        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/modelList.tpl'));
+        $view = ($view) ? $view : 'modelList';
+        $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/'.$view.'.tpl'));
+        $output = new Stamp(Stamp::load(dirname(__file__).'/../views/'.$view.'.tpl'));
+        $models = $this->app->models();
         $model = $this->load($id);
         if (!$model) F3::error(404);
         $props = '';
         foreach($this->properties as $prop => $val)
         {
-            $props .= $tpl->copy('property')->replace('propname', $prop)->replace('propval', $model->$prop);
+            $propval = (is_object($model->$prop)) ? $model->$prop->{$models[$prop]->toString} : $model->$prop;
+            $props .= $tpl->copy('property')->replace('propname', $prop)->replace('propval', $propval);
         }
         return $output
             ->replace('new_link', '')
@@ -123,6 +153,7 @@ class mpMVCModel
             ->replace('property', $props)
             ->replace('propval', $model->{$this->toString})
             ->replace('plural', $this->plural)
+            ->replace('single', $this->single)
             ->replace('toString', $model->{$this->toString})
             ->replace('base_url', $this->app->baseurl);
     }

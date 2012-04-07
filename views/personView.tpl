@@ -12,6 +12,11 @@
             <p><!-- propname --><!-- /propname -->: <!-- propval --><!-- /propval --></p>
         <!-- /property -->
         <br />
+        <h5>Posts</h5>
+        <hr />
+        <!-- micropost -->
+            <a href="<!-- base_url --><!-- /base_url -->microposts/<!-- pid --><!-- /pid -->"><!-- ptitle --><!-- /ptitle --></a><hr />
+        <!-- /micropost -->
         <div class="controls">
           <a class="del" href="<!-- base_url --><!-- /base_url --><!-- single --><!-- /single -->/<!-- id --><!-- /id -->/remove" id="<!-- id --><!-- /id -->">Remove</a> <a class="edit" href="<!-- base_url --><!-- /base_url --><!-- plural --><!-- /plural -->/<!-- id --><!-- /id -->/edit">Edit</a>
         </div>
