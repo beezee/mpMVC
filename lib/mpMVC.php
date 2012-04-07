@@ -30,6 +30,19 @@ class mpMVC
         }
     }
     
+    public function modelsList()
+    {
+        $tpl = new Stamp(Stamp::load(dirname(__file__).'/../views/homePage.tpl'));
+        $output = '';
+        foreach ($this->_models as $modelname => $model)
+        {
+            $output .= $tpl->copy('item')
+                ->replace('plural', $model->plural)
+                ->replace('base_url', $this->baseurl);
+        }
+        return $output;
+    }
+    
     public function setRoutesHandler(mpMVCRouter $router)
     {
         $this->routeshandler = $router;

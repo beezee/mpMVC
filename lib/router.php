@@ -25,7 +25,7 @@ class mpMVCRouter
     public function home()
     {
         $app = F3::get('app');
-        echo $app->render('Welcome to mpMVC');
+        echo $app->render($app->modelsList());
     }
     
     public function modelAdd()
